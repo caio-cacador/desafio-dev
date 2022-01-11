@@ -50,3 +50,26 @@ def calculate_store_balance(store_name, type_id, value) -> float:
     current_balance = store.balance if store else 0.0
 
     return eval(f'{current_balance} {TRANSACTIONS[type_id]["signal"]} {value}')
+
+def format_cnabs_by_store(stores: List[Store]) -> dict:
+    result = {}
+    for store in stores:
+        result[store.pk] = {
+            'cnabs': [],
+            'store': {'name': store.name,
+                      'owner': store.owner,
+                      'balance': store.balance}
+        }
+
+        cnabs_sorted_by_date = sorted(store.cnabs.iterator(), key=lambda cnab: cnab.date)
+        for cnab in cnabs_sorted_by_date:
+            transaction = TRANSACTIONS[cnab.transaction_type]
+            result[store.pk]['cnabs'].append({
+                'date': cnab.date.strftime('%d/%m/%Y'),
+                'hour': cnab.date.strftime('%X'),
+                'description': transaction['description'],
+                'nature': transaction['nature'],
+                'cpf': cnab.cpf,
+                'card': cnab.card
+            })
+    return result

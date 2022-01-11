@@ -1,6 +1,7 @@
 from django.shortcuts import  render, redirect
 from .forms import FileForm
-from .service import parse_file_form, calculate_store_balance
+from .models import Store
+from .service import parse_file_form, calculate_store_balance, format_cnabs_by_store
 
 def cnab(request):
     if request.method == "POST":
@@ -15,6 +16,8 @@ def cnab(request):
                 cnab.save()
             return redirect('cnab')
 
+    stores = Store.objects.all()
+    formatted_result = format_cnabs_by_store(stores)
     return render(request=request, 
-					template_name="upload_file.html", 
-					context={'form':FileForm()})
+                  template_name="upload_file.html", 
+                  context={'form':FileForm(), 'result': formatted_result})
