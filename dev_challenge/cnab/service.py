@@ -1,3 +1,8 @@
+from typing import List
+from io import BytesIO
+from datetime import datetime
+
+from .models import Cnab, Store
 
 TRX_DEBIT = '1'
 TRX_TICKET = '2'
@@ -21,3 +26,27 @@ TRANSACTIONS = {
     TRX_RENT: {'description': 'Aluguel', 'nature': 'Saída', 'signal': '-'}
 }
 
+def parse_file_form(file: BytesIO) -> List[Cnab]:
+
+    cnabs = []
+    for line in file.readlines():
+        content = line.decode('UTF-8').strip()
+        date_in_str = f'{content[1:5]}-{content[5:7]}-{content[7:9]}  {content[42:44]}:{content[44:46]}:{content[46:48]} -0300'
+        
+        cnabs.append(Cnab(
+            transaction_type = content[0],
+            date = datetime.strptime(date_in_str, '%Y-%m-%d %H:%M:%S %z'),
+            value = int(content[9:19]) / 100,
+            cpf = content[19:30],
+            card = content[30:42],
+            store = Store(owner = content[48:62].strip().lower(),
+                          name = content[62:81].strip().lower())
+        ))
+
+    return cnabs
+
+def calculate_store_balance(store_name, type_id, value) -> float:
+    store = Store.objects.filter(name=store_name).first()
+    current_balance = store.balance if store else 0.0
+
+    return eval(f'{current_balance} {TRANSACTIONS[type_id]["signal"]} {value}')
