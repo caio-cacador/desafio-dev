@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}  
+
+
+      <div class="container">
+          <h1>Welcome to Caio's Dev Challenge</h1><br/>
+          <h2>Import a new .txt file of CNABs</h2>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+              {{form}}
+                <button class="btn" type="submit">Submit File</button>
+            </form>
+          
+        <br/>
+        <h2>CNABS imported</h2>
+        
+      </div>
+
+
+{% endblock %}
