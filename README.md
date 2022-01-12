@@ -1,8 +1,9 @@
 # Como executar a aplicação e os testes
 
-***Instalação do Docker e do docker-compose***
-Caso precise instalar o Docker e/ou docker-compose:
-https://docs.docker.com/engine/install/
+**Para a instalação do Docker e do Docker Compose utilize o link:**
+
+Docker: https://docs.docker.com/engine/install/
+Docker Compose: https://docs.docker.com/compose/install/
 
 ## Instruções para executar a aplicação
 
@@ -13,7 +14,7 @@ Obs: Certifique de estar na raiz do projeto.
 docker build --no-cache --target app -t django:app .
 ```
 
-2. Em seguida, execute o docker-compose:
+2. Em seguida, execute o Docker Compose:
 
 ```sh
 docker-compose up -d
