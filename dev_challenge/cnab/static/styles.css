@@ -1,0 +1,27 @@
+* {
+    font-family: sans-serif;
+    text-decoration: none;
+}
+
+body {
+    margin: 10%;
+}
+
+.alert {
+    color: red;
+}
+
+h4 {
+    text-transform: capitalize; 
+}
+
+table {
+    width: 100%;
+    border-bottom: 2px solid #ddd !important;
+}
+
+th {
+    width: 10%;
+    text-align: left;
+    text-transform: capitalize; 
+}
