@@ -1,6 +1,6 @@
 from django.shortcuts import  render, redirect
 from .forms import FileForm
-from .models import Store
+from .models import Cnab, Store
 from .service import parse_file_form, calculate_store_balance, format_cnabs_by_store
 from .exceptions import InvalidTransactionType
 
@@ -16,7 +16,7 @@ def cnab(request):
                                                                 type_id=cnab.transaction_type, 
                                                                 value=cnab.value)
                     cnab.store.save()
-                    cnab.save()
+                Cnab.objects.bulk_create(cnabs)
             except InvalidTransactionType:
                 exception = 'There is an invalid transaction type, check if the file is correct!'
             except Exception:
