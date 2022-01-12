@@ -1,9 +1,14 @@
 # Como executar a aplicação e os testes
 
-**Para a instalação do Docker e do Docker Compose utilize o link:**
+**Para a instalação do Docker e do Docker Compose utilize os links:**
 
-Docker: https://docs.docker.com/engine/install/
-Docker Compose: https://docs.docker.com/compose/install/
+Docker: 
+
+https://docs.docker.com/engine/install/
+
+Docker Compose: 
+
+https://docs.docker.com/compose/install/
 
 ## Instruções para executar a aplicação
 
@@ -36,6 +41,7 @@ docker build --no-cache --target test -t django:test .
 ```sh
 docker run --network=host django:test
 ```
+
 
 # Desafio programação - para vaga desenvolvedor
 
