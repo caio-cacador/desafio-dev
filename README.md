@@ -1,3 +1,41 @@
+# Como executar a aplicação e os testes
+
+***Instalação do Docker e do docker-compose***
+Caso precise instalar o Docker e/ou docker-compose:
+https://docs.docker.com/engine/install/
+
+## Instruções para executar a aplicação
+
+1. Primeiro, realize o build da imagem docker da aplicação:
+Obs: Certifique de estar na raiz do projeto.
+
+```sh
+docker build --no-cache --target app -t django:app .
+```
+
+2. Em seguida, execute o docker-compose:
+
+```sh
+docker-compose up -d
+```
+
+3. Acesse a aplicação pelo link http://127.0.0.1:8000/
+
+## Instruções para executar os testes
+
+1. Primeiro, realize o build da imagem docker:
+Obs: Certifique de estar na raiz do projeto.
+
+```sh
+docker build --no-cache --target test -t django:test .
+```
+
+2. Em seguida, execute a imagem buildada utilizando o Docker:
+
+```sh
+docker run --network=host django:test
+```
+
 # Desafio programação - para vaga desenvolvedor
 
 Por favor leiam este documento do começo ao fim, com muita atenção.
