@@ -4,18 +4,41 @@
 
 
       <div class="container">
-          <h1>Welcome to Caio's Dev Challenge</h1><br/>
-          <h2>Import a new .txt file of CNABs</h2>
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-              {{form}}
-                <button class="btn" type="submit">Submit File</button>
-            </form>
+        <h1>Welcome to Caio's Dev Challenge</h1><br/>
+        <h2>Import a new .txt file of CNABs</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+            {{form}}
+              <button class="btn" type="submit">Submit File</button>
+          </form>
+
+          {% if exception %}
+            <p class="alert">{{ exception }}</p>
+          {% endif %}
           
         <br/>
-        <h2>CNABS imported</h2>
-        
-      </div>
+          <h2>CNABS imported</h2>
+            <div class="table-div">
+              {% for _, item in result.items %}
+                <h4 class="list-header">Store - {{ item.store.name }}, Owner: {{ item.store.owner }} - Balance: {{ item.store.balance }}</h4>
+                <table>
+                  <tr>
+                    {% for key in item.cnabs.0.keys %}
+                      <th>{{ key }}</th>
+                    {% endfor %}
+                  </tr>
+                  {% for cnab in item.cnabs %}
+                    <tr>
+                      {% for value in cnab.values %}
+                        <td>{{ value }}</td>
+                      {% endfor %}
+                    </tr>
+                  {% endfor %}
+                </table>
+              {% empty %}
+            <p class="alert">No CNABs added, please import a file.</p>
+          {% endfor %}
+        </div>
 
 
 {% endblock %}

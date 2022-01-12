@@ -1,8 +1,9 @@
 from typing import List
 from io import BytesIO
 from datetime import datetime
-
 from .models import Cnab, Store
+from .exceptions import InvalidTransactionType
+
 
 TRX_DEBIT = '1'
 TRX_TICKET = '2'
@@ -26,15 +27,23 @@ TRANSACTIONS = {
     TRX_RENT: {'description': 'Aluguel', 'nature': 'Saída', 'signal': '-'}
 }
 
+ALL_TRANSACTIONS = [trx for trx in TRANSACTIONS.keys()]
+
+
 def parse_file_form(file: BytesIO) -> List[Cnab]:
 
     cnabs = []
     for line in file.readlines():
         content = line.decode('UTF-8').strip()
+        
+        transaction_type = content[0]
+        if transaction_type not in ALL_TRANSACTIONS:
+            raise InvalidTransactionType()
+        
         date_in_str = f'{content[1:5]}-{content[5:7]}-{content[7:9]}  {content[42:44]}:{content[44:46]}:{content[46:48]} -0300'
         
         cnabs.append(Cnab(
-            transaction_type = content[0],
+            transaction_type = transaction_type,
             date = datetime.strptime(date_in_str, '%Y-%m-%d %H:%M:%S %z'),
             value = int(content[9:19]) / 100,
             cpf = content[19:30],
